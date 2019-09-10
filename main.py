@@ -21,6 +21,12 @@ def uninformed_search(grid, start, goal):
             pass
 
 
+def expand_node(node, visited, unexplored):
+    for n in node.get_neighbors():
+        if n not in visited and n not in list(unexplored.queue):
+            unexplored.put(Node(n, node))
+
+
 def main():
     grid = read_grid('grid.txt')
     start = [1, 1]

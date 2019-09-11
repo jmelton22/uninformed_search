@@ -16,23 +16,22 @@ def uninformed_search(grid, start, goal, breadth=True):
     else:
         unexplored = LifoQueue()
 
-    search(grid, current, goal, unexplored, visited)
-
-    return visited
+    return search(grid, current, goal, unexplored, visited)
 
 
 def search(grid, node, goal, unexplored, visited):
     visited.append(node)
 
     if node.value == goal:
-        return
+        # TODO: Add set_path function to trim list
+        return visited
     else:
         expand_node(grid, node, visited, unexplored)
 
         if unexplored.empty():
-            return False
+            return None
         else:
-            search(grid, unexplored.get(), goal, unexplored, visited)
+            return search(grid, unexplored.get(), goal, unexplored, visited)
 
 
 # TODO: Clean up logic for node in visited list or in queue
@@ -63,18 +62,16 @@ def main():
     breadth_path = uninformed_search(grid, start, end)
     depth_path = uninformed_search(grid, start, end, breadth=False)
 
-    print('Breadth   Depth')
-    for b_node, d_node in zip_longest(breadth_path, depth_path):
-        print(b_node.value, end=' \t ')
-        if d_node:
-            print(d_node.value)
-        else:
-            print(d_node)
+    if breadth_path is not None:
+        print('Breadth   Depth')
+        for b_node, d_node in zip_longest(breadth_path, depth_path):
+            print(b_node.value, end=' \t ')
+            if d_node:
+                print(d_node.value)
+            else:
+                print(d_node)
 
     # g.output_grid(grid, start, end, path)
-
-    # # Print grid: add space between columns and newline between rows
-    # print('\n'.join(' '.join([str(col) for col in row]) for row in grid))
 
 
 if __name__ == '__main__':

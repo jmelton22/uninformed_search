@@ -20,4 +20,4 @@ def output_grid(grid, start, goal, path):
 
     # Write grid to file: add space between columns and newline between rows
     with open(fname, 'w') as f:
-        '\n'.join(' '.join([str(col) for col in row]) for row in grid)
+        f.write('\n'.join(' '.join([str(col) for col in row]) for row in grid))

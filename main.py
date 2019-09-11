@@ -1,39 +1,80 @@
 #!/usr/bin/env python3
 
-from queue import Queue
+from itertools import zip_longest
+
+from queue import Queue, LifoQueue
 from node import Node
-from grid import read_grid, output_grid
+import grid as g
 
 
-def uninformed_search(grid, start, goal):
+def uninformed_search(grid, start, goal, breadth=True):
     current = Node(start, '')
-    unexplored = Queue()
     visited = []
 
-    while (current.value != goal) and unexplored.empty():
-        current = unexplored.get()
-        visited.append(current)
+    if breadth:
+        unexplored = Queue()
+    else:
+        unexplored = LifoQueue()
 
-        if current == goal:
-            pass
+    search(grid, current, goal, unexplored, visited)
+
+    return visited
+
+
+def search(grid, node, goal, unexplored, visited):
+    visited.append(node)
+
+    if node.value == goal:
+        return
+    else:
+        expand_node(grid, node, visited, unexplored)
+
+        if unexplored.empty():
+            return False
         else:
-            # Expand node
-            pass
+            search(grid, unexplored.get(), goal, unexplored, visited)
 
 
-def expand_node(node, visited, unexplored):
-    for n in node.get_neighbors():
-        if n not in visited and n not in list(unexplored.queue):
+# TODO: Clean up logic for node in visited list or in queue
+def expand_node(grid, node, visited, unexplored):
+
+    def in_queue(loc, unexplored):
+        for each in list(unexplored.queue):
+            if loc == each.value:
+                return True
+        return False
+
+    def in_visited(loc, visited):
+        for each in visited:
+            if loc == each.value:
+                return True
+        return False
+
+    for n in node.get_neighbors(grid):
+        if not in_visited(n, visited) and not in_queue(n, unexplored):
             unexplored.put(Node(n, node))
 
 
 def main():
-    grid = read_grid('grid.txt')
+    grid = g.read_grid('grid.txt')
     start = [1, 1]
     end = [5, 6]
 
-    # Print grid: add space between columns and newline between rows
-    print('\n'.join(' '.join([str(col) for col in row]) for row in grid))
+    breadth_path = uninformed_search(grid, start, end)
+    depth_path = uninformed_search(grid, start, end, breadth=False)
+
+    print('Breadth   Depth')
+    for b_node, d_node in zip_longest(breadth_path, depth_path):
+        print(b_node.value, end=' \t ')
+        if d_node:
+            print(d_node.value)
+        else:
+            print(d_node)
+
+    # g.output_grid(grid, start, end, path)
+
+    # # Print grid: add space between columns and newline between rows
+    # print('\n'.join(' '.join([str(col) for col in row]) for row in grid))
 
 
 if __name__ == '__main__':

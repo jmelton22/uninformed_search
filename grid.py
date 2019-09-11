@@ -6,9 +6,7 @@ def read_grid(fname):
         return [[int(x) for x in l.split()] for l in f.readlines()]
 
 
-def output_grid(grid, start, goal, path):
-    fname = 'path.txt'
-
+def output_grid(fname, grid, start, goal, path):
     # Mark start and goal pts
     grid[start[0]][start[1]] = 'S'
     grid[goal[0]][goal[1]] = 'G'

@@ -49,8 +49,13 @@ def expand_node(grid, node, visited, unexplored):
 
 def main():
     grid = g.read_grid('grid.txt')
-    start = [1, 1]
-    end = [5, 6]
+    print('\n'.join(' '.join([str(col) for col in row]) for row in grid))
+
+    print('\nEnter a starting coordinate (r, c): ', end='')
+    start = [int(x) for x in input().split(',')]
+
+    print('Enter a goal coordinate (r, c): ', end='')
+    end = [int(x) for x in input().split(',')]
 
     path = uninformed_search(grid, start, end)
     fname = 'breadth_path.txt'

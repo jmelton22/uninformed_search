@@ -10,7 +10,7 @@ class Node:
         up = [self.value[0] - 1, self.value[1]]
         right = [self.value[0], self.value[1] + 1]
         down = [self.value[0] + 1, self.value[1]]
-        left = [self.value[0] - 1, self.value[1]]
+        left = [self.value[0], self.value[1] - 1]
 
         neighbors = []
 

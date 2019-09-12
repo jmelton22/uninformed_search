@@ -8,11 +8,7 @@ import grid as g
 def uninformed_search(grid, start, goal, breadth=True):
     current = Node(start, '')
     visited, path = [], []
-
-    if breadth:
-        unexplored = Queue()
-    else:
-        unexplored = LifoQueue()
+    unexplored = Queue() if breadth else LifoQueue()
 
     return search(grid, current, goal, unexplored, visited, path)
 
@@ -39,23 +35,15 @@ def set_path(node, path):
         return set_path(node.parent, path)
 
 
-# TODO: Clean up logic for node in visited list or in queue
 def expand_node(grid, node, visited, unexplored):
+    def in_unexplored(loc, q):
+        return True if loc in [each.value for each in list(q.queue)] else False
 
-    def in_queue(loc, unexplored):
-        for each in list(unexplored.queue):
-            if loc == each.value:
-                return True
-        return False
-
-    def in_visited(loc, visited):
-        for each in visited:
-            if loc == each.value:
-                return True
-        return False
+    def in_visited(loc, l):
+        return True if loc in [each.value for each in l] else False
 
     for n in node.get_neighbors(grid):
-        if not in_visited(n, visited) and not in_queue(n, unexplored):
+        if not in_visited(n, visited) and not in_unexplored(n, unexplored):
             unexplored.put(Node(n, node))
 
 
@@ -65,10 +53,15 @@ def main():
     end = [5, 6]
 
     path = uninformed_search(grid, start, end)
-    # path = uninformed_search(grid, start, end, breadth=False)
+    fname = 'breadth_path.txt'
 
-    if path is not None:
-        g.output_grid('breadth_path.txt', grid, start, end, path)
+    # path = uninformed_search(grid, start, end, breadth=False)
+    # fname = 'depth_path.txt'
+
+    if path is None:
+        print('No path found.')
+    else:
+        g.output_grid(fname, grid, start, end, path)
 
 
 if __name__ == '__main__':

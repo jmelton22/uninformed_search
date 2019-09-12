@@ -37,10 +37,10 @@ def set_path(node, path):
 
 def expand_node(grid, node, visited, unexplored):
     def in_unexplored(loc, q):
-        return True if loc in [each.value for each in list(q.queue)] else False
+        return loc in [each.value for each in list(q.queue)]
 
     def in_visited(loc, l):
-        return True if loc in [each.value for each in l] else False
+        return loc in [each.value for each in l]
 
     for n in node.get_neighbors(grid):
         if not in_visited(n, visited) and not in_unexplored(n, unexplored):

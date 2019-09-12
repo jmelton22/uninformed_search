@@ -47,21 +47,30 @@ def expand_node(grid, node, visited, unexplored):
             unexplored.put(Node(n, node))
 
 
+def get_user_coords(grid):
+    while True:
+        try:
+            print('\nEnter a starting coordinate (r, c): ', end='')
+            coord = [int(x) for x in input().split(',')]
+        except ValueError:
+            print('Non-numeric coordinated entered')
+            continue
+
+        if grid[coord[0]][coord[1]] != 0:
+            print('Invalid start coordinate on grid')
+        else:
+            return coord
+
+
 def main():
     grid = g.read_grid('grid.txt')
     print('\n'.join(' '.join([str(col) for col in row]) for row in grid))
 
-    print('\nEnter a starting coordinate (r, c): ', end='')
-    start = [int(x) for x in input().split(',')]
-
-    print('Enter a goal coordinate (r, c): ', end='')
-    end = [int(x) for x in input().split(',')]
+    start = get_user_coords(grid)
+    end = get_user_coords(grid)
 
     path = uninformed_search(grid, start, end)
-    fname = 'breadth_path.txt'
-
-    # path = uninformed_search(grid, start, end, breadth=False)
-    # fname = 'depth_path.txt'
+    fname = 'path.txt'
 
     if path is None:
         print('No path found.')

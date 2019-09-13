@@ -6,28 +6,45 @@ import grid as g
 
 
 def uninformed_search(grid, start, goal, breadth=True):
-    current = Node(start, '')
+    """
+        Handles initialization of data structures for grid search
+    """
     visited, path = [], []
+
+    # Queue for breadth-first search; Stack (LifoQueue) for depth-first search
     unexplored = Queue() if breadth else LifoQueue()
 
-    return search(grid, current, goal, unexplored, visited, path)
+    return search(grid, Node(start, ''), goal, unexplored, visited, path)
 
 
 def search(grid, node, goal, unexplored, visited, path):
+    """
+        Recursive uninformed search. Exits when goal node has been reached or
+        when queue of unexplored nodes is empty.
+
+    :return: if goal node is reached, return list of nodes back to the starting node
+             if queue is empty without reaching goal node, return None
+    """
     visited.append(node)
 
     if node.value == goal:
         return set_path(node, path)
     else:
+        # Add valid neighboring nodes to unexplored queue
         expand_node(grid, node, visited, unexplored)
 
         if unexplored.empty():
             return None
         else:
+            # Search through next node in queue
             return search(grid, unexplored.get(), goal, unexplored, visited, path)
 
 
 def set_path(node, path):
+    """
+        Recursive function to determine the path from the goal node to starting node
+        by traversing the parent nodes until reaching the start node
+    """
     path.append(node.value)
     if node.parent == '':
         return path
@@ -36,6 +53,13 @@ def set_path(node, path):
 
 
 def expand_node(grid, node, visited, unexplored):
+    """
+        Given a node, add its valid neighboring nodes to the unexplored queue/stack
+        Nodes are valid if:
+            - their value in the grid is 0 and
+            - they have not already been visited and
+            - they are not already in the queue
+    """
     def in_unexplored(loc, q):
         return loc in [each.value for each in list(q.queue)]
 
@@ -48,9 +72,12 @@ def expand_node(grid, node, visited, unexplored):
 
 
 def get_user_coords(grid, text):
+    """
+        Get and validate user input for starting and goal coordinates
+    """
     while True:
         try:
-            print('\nEnter a {} coordinate (r, c): '.format(text), end='')
+            print('Enter a {} coordinate (r, c): '.format(text), end='')
             coord = [int(x) for x in input().split(',')]
         except ValueError:
             print('Non-numeric coordinated entered')
@@ -64,6 +91,8 @@ def get_user_coords(grid, text):
 
 def main():
     grid = g.read_grid('grid.txt')
+
+    # Print grid with a space between columns and a newline between rows
     print('\n'.join(' '.join([str(col) for col in row]) for row in grid))
 
     start = get_user_coords(grid, 'start')

@@ -22,8 +22,8 @@ def search(grid, node, goal, unexplored, visited, path):
         Recursive uninformed search. Exits when goal node has been reached or
         when queue of unexplored nodes is empty.
 
-    :return: if goal node is reached, return list of nodes back to the starting node
-             if queue is empty without reaching goal node, return None
+    :return: if goal node is reached, return list of nodes back to the starting node.
+             if queue is empty without reaching goal node, return None.
     """
     visited.append(node)
 
@@ -77,10 +77,10 @@ def get_user_coords(grid, text):
     """
     while True:
         try:
-            print('Enter a {} coordinate (r, c): '.format(text), end='')
+            print('Enter a {} coordinate (r, c):'.format(text), end=' ')
             coord = [int(x) for x in input().split(',')]
         except ValueError:
-            print('Non-numeric coordinated entered')
+            print('Non-numeric coordinate entered')
             continue
 
         if grid[coord[0]][coord[1]] != 0:
@@ -94,11 +94,22 @@ def main():
 
     # Print grid with a space between columns and a newline between rows
     print('\n'.join(' '.join([str(col) for col in row]) for row in grid))
+    print()
 
     start = get_user_coords(grid, 'start')
     end = get_user_coords(grid, 'goal')
 
-    path = uninformed_search(grid, start, end)
+    # Prompt user to choose breadth-first or depth-first search
+    while True:
+        print('Choose breadth-first (0) or depth-first (1) search:', end=' ')
+        try:
+            # Default to breadth-first unless 1 entered
+            breadth = False if int(input()) == 1 else True
+            break
+        except ValueError:
+            print('Invalid selection. Please enter 0 or 1')
+
+    path = uninformed_search(grid, start, end, breadth)
     fname = 'path.txt'
 
     if path is None:

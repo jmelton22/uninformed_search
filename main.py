@@ -104,7 +104,7 @@ def main():
         print('Choose breadth-first (0) or depth-first (1) search:', end=' ')
         try:
             # Default to breadth-first unless 1 entered
-            breadth = False if int(input()) == 1 else True
+            breadth = int(input()) != 1
             break
         except ValueError:
             print('Invalid selection. Please enter 0 or 1')

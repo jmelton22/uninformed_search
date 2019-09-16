@@ -54,7 +54,7 @@ def set_path(node, path):
 
 def expand_node(grid, node, visited, unexplored):
     """
-        Given a node, add its valid neighboring nodes to the unexplored queue/stack
+        Given a node, add its valid neighboring nodes to the unexplored queue
         Nodes are valid if:
             - their value in the grid is 0 and
             - they have not already been visited and

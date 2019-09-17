@@ -91,6 +91,7 @@ def get_user_coords(grid, text):
 
 def main():
     grid = g.read_grid('grid.txt')
+    # grid = g.make_grid(10, 10)
 
     # Print grid with a space between columns and a newline between rows
     print('\n'.join(' '.join([str(col) for col in row]) for row in grid))

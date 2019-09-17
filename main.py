@@ -7,7 +7,7 @@ import grid as g
 
 def uninformed_search(grid, start, goal, breadth=True):
     """
-        Handles initialization of data structures for grid search
+        Handles initialization of data structures for grid search.
     """
     visited, path = [], []
 
@@ -43,7 +43,7 @@ def search(grid, node, goal, unexplored, visited, path):
 def set_path(node, path):
     """
         Recursive function to determine the path from the goal node to starting node
-        by traversing the parent nodes until reaching the start node
+        by traversing the parent nodes until reaching the start node.
     """
     path.append(node.value)
     if node.parent == '':
@@ -54,7 +54,7 @@ def set_path(node, path):
 
 def expand_node(grid, node, visited, unexplored):
     """
-        Given a node, add its valid neighboring nodes to the unexplored queue
+        Given a node, add its valid neighboring nodes to the unexplored queue.
         Nodes are valid if:
             - their value in the grid is 0 and
             - they have not already been visited and
@@ -73,7 +73,7 @@ def expand_node(grid, node, visited, unexplored):
 
 def get_user_coords(grid, text):
     """
-        Get and validate user input for starting and goal coordinates
+        Get and validate user input for starting and goal coordinates.
     """
     while True:
         try:

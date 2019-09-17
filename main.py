@@ -60,11 +60,11 @@ def expand_node(grid, node, visited, unexplored):
             - they have not already been visited and
             - they are not already in the queue
     """
-    def in_unexplored(loc, q):
-        return loc in [each.value for each in list(q.queue)]
+    def in_unexplored(coord, q):
+        return coord in [x.value for x in list(q.queue)]
 
-    def in_visited(loc, l):
-        return loc in [each.value for each in l]
+    def in_visited(coord, l):
+        return coord in [x.value for x in l]
 
     for n in node.get_neighbors(grid):
         if not in_visited(n, visited) and not in_unexplored(n, unexplored):
